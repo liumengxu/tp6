@@ -47,4 +47,8 @@ class Index extends Controller
         $info = Db::name('Num')->where('create_time','<',$time)->delete();
         return $info;
     }
+
+    public function show(){
+        echo 22;
+    }
 }
