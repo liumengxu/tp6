@@ -3,6 +3,7 @@ namespace app\index\controller;
 
 use app\index\model\Num;
 use app\index\validate\NumValidate;
+use think\App;
 use think\console\Table;
 use think\Controller;
 use think\Db;
@@ -11,12 +12,13 @@ use think\Loader;
 use think\Validate;
 use think\exception\ValidateException;
 
-class Index extends Controller
+class Index extends CommonController
 {
     public function index()
     {
         return "首页";
     }
+
 
 
     public function insert(){
@@ -32,6 +34,33 @@ class Index extends Controller
             }else{
 //                $info = Db::name('Num') ->insert($data);
                 $info = \model('Num')->save($data);
+//                $data = \model("Num")->getLastSql();
+//                echo $data;
+//                var_dump($info);die;
+                return $info;
+            }
+        } catch (ValidateException $e) {
+            // 验证失败 输出错误信息
+            dump($e->getError());
+        }
+
+    }
+
+    public function add(){
+        echo 22;die;
+        $data = [
+            'name'=> "ThinkPhp",
+            'num' => "1234",
+        ];
+        try {
+            $result = Validate(NumValidate::class)->scene('insert')->check($data);
+            if(true !== $result){
+                return Validate(NumValidate::class)->getError();
+            }else{
+//                $info = Db::name('Num') ->insert($data);
+                $info = \model('Num')->save($data);
+//                $data = \model("Num")->getLastSql();
+//                echo $data;
 //                var_dump($info);die;
                 return $info;
             }
@@ -48,7 +77,23 @@ class Index extends Controller
         return $info;
     }
 
+
+    public function update(){
+        $data = [
+          'name' =>"test",
+          'num'  =>'200'
+        ];
+//        $table = Db::name("Num");
+        $info = Db::name('Num')->where('id',65)->update($data);
+//        $res = $table->getLastSql();
+//        echo $res;die;
+        return $info;
+    }
+
     public function show(){
-        echo 22;
+//        echo 22;die;
+        $info = Db::table('p_num')->select();
+//        $info = Db::table('p_num')->show();
+        return $info;
     }
 }

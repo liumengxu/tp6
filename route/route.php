@@ -20,4 +20,6 @@
     Route::get('insert','index/index/insert');
     Route::get('show','index/index/show');
     Route::get('delete','index/index/delete');
+    Route::get('update','index/index/update');
+    Route::get('add','index/index/add');
 //];
