@@ -16,6 +16,7 @@
 //Route::get('hello/:name', 'index/hello');
 
 //return [
+    Route::get('a','index/CommonController/insert');
     Route::get('index','index/index/index');
     Route::get('insert','index/index/insert');
     Route::get('show','index/index/show');

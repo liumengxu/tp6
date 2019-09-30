@@ -5,6 +5,8 @@ namespace app\index\controller;
 
 use think\Controller;
 use think\App;
+use think\exception\PDOException;
+use PDO;
 
 //use
 class CommonController extends Controller
@@ -20,10 +22,10 @@ class CommonController extends Controller
 ////    {
 //////        parent::__construct();
 ////    }
-////    private function __construct(){
-////        $this->pdo = new PDO("mysql:host=127.0.0.1;dbname=test_system", "root", "");
-////        $this->pdo->query("set names utf8");
-////    }
+     function __construct(){
+        $this->pdo = new PDO("mysql:host=localhost;dbname=lmx", "root", "root");
+        $this->pdo->query("set names utf8");
+    }
 //
 //
 //    //禁止克隆对象
@@ -58,42 +60,38 @@ class CommonController extends Controller
      * @param array $data
      * @return string
      */
-    public function insert($table_name='',$data=''){
-        $table_name = "num";
-        $data=[
-            'name'=>'12'
-        ];
+    public function add($table_name,$data){
         $keys = implode(",",array_keys($data));
-        $values = "'".implode(",",array_values($data))."'";
+
+        $value = "'".implode(",",array_values($data))."'";
+        $values = str_replace(',',"','",$value);
+
         $sql = "insert into $table_name ($keys) values ($values)";
         $result = $this->pdo->exec($sql);
-        $this->error();
+//        $this->error();
         return $result;
     }
-//    public function update(){
-////        $keys = implode()
-//    }
+    public function upda($table_name,$data){
+//        $keys = implode(",",array_keys($data));
+//        $value = "'".implode(",",array_values($data))."'";
+//        var_dump($keys);
+//        var_dump($value);
+
+//        $id = $data['id'];
+//        unset($id);
+        $arr = [];
+        foreach($data as $k=>$v){
+            $arr[] = $k."'='"."$v";
+            var_dump($arr);die;
+
+        }
+
+
+        $sql = "update $table_name set $keys=$value where id='$id'";
+        var_dump($sql);
+    }
     public function delete(){
 
     }
 }
 
-    function M($table_name){
-        $db = Db::getDb($table_name);
-        return $db;
-    };
-
-    $data = [
-        [
-            'name'=>'雪碧',
-            'class_name'=>'3333333',
-        ],
-        [
-            'name'=>'可乐',
-            'class_name'=>'3333333',
-        ],
-    ];
-
-
-//    $r = M('user')->delete(726);
-//    echo $r;

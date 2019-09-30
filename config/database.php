@@ -13,7 +13,9 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => '188.131.235.77',
+//    'hostname'        => '188.131.235.77',
+//    'hostname'        => '140.143.74.148',
+    'hostname'        => 'localhost',
     // 数据库名
     'database'        => 'lmx',
     // 用户名
