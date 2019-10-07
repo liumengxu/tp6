@@ -47,37 +47,16 @@ class Index extends CommonController
 
     }
 
-//    public function add()
-//    {
-////        echo 22;
-////        die;
-//        $data = [
-//            'name' => "ThinkPhp",
-//            'num' => "1234",
-//        ];
-//        try {
-//            $result = Validate(NumValidate::class)->scene('insert')->check($data);
-//            if (true !== $result) {
-//                return Validate(NumValidate::class)->getError();
-//            } else {
-////                $info = Db::name('Num') ->insert($data);
-//                $info = \model('Num')->save($data);
-////                $data = \model("Num")->getLastSql();
-////                echo $data;
-////                var_dump($info);die;
-//                return $info;
-//            }
-//        } catch (ValidateException $e) {
-//            // 验证失败 输出错误信息
-//            dump($e->getError());
-//        }
-//
-//    }
 
     public function delete()
     {
+
         $time = time() - 86400;
-        $info = Db::name('Num')->where('create_time', '<', $time)->delete();
+//        $info = Db::name('Num')->where('create_time', '<', $time)->delete();
+        $table = Db::name("Num")->find();
+        $id = $table['id'];
+        $info = $this->del('p_num',$table);
+//        var_dump($info);die;
         return $info;
     }
 
@@ -85,23 +64,29 @@ class Index extends CommonController
     public function update()
     {
         $data = [
-            'name' => "test",
-            'num' => '200'
+            'name' => "tp",
+            'num' => '10'
         ];
 //        $table = Db::name("Num");
+        $table = Db::name("Num")->find();
+        $id = $table['id'];
+//        var_dump($table);die;
 //        $info = Db::name('Num')->where('id', 12)->update($data);
-        $info = $this->upda("p_num",$data);
-        var_dump($info);die;
-//        $res = $table->getLastSql();
-//        echo $res;die;
+        $info = $this->upda("p_num",$data,$table,$id);
+
         return $info;
     }
 
     public function show()
     {
-//        echo 22;die;
-        $info = Db::table('p_num')->select();
-//        $info = Db::table('p_num')->show();
+//        $info = Db::table('p_num')->select();
+        $info = $this->exhibition('p_num');
+        return $info;
+    }
+
+    public function showFirst()
+    {
+        $info = $this->shfirst('p_num');
         return $info;
     }
 }
