@@ -8,7 +8,6 @@ use think\App;
 use think\console\Table;
 use think\Controller;
 use think\Db;
-use think\Model;
 use think\Loader;
 use think\Validate;
 use think\exception\ValidateException;
@@ -17,7 +16,8 @@ class Index extends CommonController
 {
     public function index()
     {
-        return $this->response("index");
+//        return $this->response("index");
+        return $this->fetch();
     }
 
 
@@ -32,11 +32,13 @@ class Index extends CommonController
         ];
         try {
             $result = Validate(NumValidate::class)->scene('insert')->check($data);
-//            var_dump($result);die;
             if (true !== $result) {
                 return Validate(NumValidate::class)->getError();
             } else {
-                $info = $this->add("p_num", $data);
+//                $info = $this->add("p_num", $data);
+                $num = new Num;
+                $info = $num->add($data);
+//                var_dump($info);die;
                 return $this->response($info);
             }
         } catch (ValidateException $e) {
@@ -52,10 +54,14 @@ class Index extends CommonController
 
         $time = time() - 86400;
 //        $info = Db::name('Num')->where('create_time', '<', $time)->delete();
-        $table = Db::name("Num")->find();
-        $id = $table['id'];
-        $info = $this->del('p_num', $table);
-//        var_dump($info);die;
+//        $table = Db::name("Num")->find();
+        $table = Num::select()->toArray();
+        $arr = [];
+        foreach($table as $k=>$v){
+            $arr[] = $v;
+        }
+//        $info = $this->del('p_num', $table);
+        $info = Num::where(['id'=>$v['id']])->delete();
         return $this->response($info);
     }
 
@@ -67,27 +73,33 @@ class Index extends CommonController
             'num' => '10'
         ];
 //        $table = Db::name("Num");
-        $table = Db::name("Num")->find();
-        $id = $table['id'];
-//        var_dump($table);die;
 //        $info = Db::name('Num')->where('id', 12)->update($data);
-        $info = $this->upda("p_num", $data, $table, $id);
+        $table = Num::select()->toArray();
+        $arr = [];
+        foreach($table as $k=>$v){
+            $arr[] = $v;
+        }
+        $num = new Num();
+        $info = $num->where(['id'=>$v['id']])->update($data);
+//        $info = $this->upda("p_num", $data, $table, $id);
         if ($info) return $this->response($info);
         else return $this->rep($info,'404');
     }
 
     public function show()
     {
+        $info = Num::show();
+//        var_dump($info);die;
 //        $info = Db::table('p_num')->select();
-        $info = $this->exhibition('p_num');
-//        return $info;
+//        $info = $this->exhibition('p_num');
         if ($info) return $this->response($info);
         else return $this->rep($info,'404');
     }
 
     public function showFirst()
     {
-        $info = $this->shfirst('p_num');
+//        $info = $this->shfirst('p_num');
+        $info = Num::find();
         if ($info) return $this->response($info);
         else return $this->rep($info,'404');
 

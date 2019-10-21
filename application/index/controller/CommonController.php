@@ -15,12 +15,11 @@ use utils\RedisService;
 class CommonController extends Controller
 {
     protected $request;
-//    protected $return_type = 'json';
 
-    //连接数据库
-    private static $instance;
-    private static $table_name;
-    private static $pdo;
+//    //连接数据库
+//    private static $instance;
+//    private static $table_name;
+//    private static $pdo;
 
 //    //防止类直接进行实例化
 //    private function __construct()
@@ -90,7 +89,7 @@ class CommonController extends Controller
     }
 
     /*
-     * 数据为空时
+     * 数据为空时的操作
      * @access public
      * @return Response
      */
@@ -100,11 +99,11 @@ class CommonController extends Controller
     }
 
     //禁止克隆对象
-    private function __clone()
-    {
-//        // TODO: Implement __clone() method.
-//
-    }
+//    private function __clone()
+//    {
+////        // TODO: Implement __clone() method.
+////
+//    }
 //
 //    private function __construct(App $app = null)
 //    {
@@ -112,14 +111,14 @@ class CommonController extends Controller
 //    }
 //
     //返回数据库的实例对象
-    public static function getDb($table_name)
-    {
-        self::$table_name = $table_name;
-        if (self::$instance instanceof self) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
+//    public static function getDb($table_name)
+//    {
+//        self::$table_name = $table_name;
+//        if (self::$instance instanceof self) {
+//            self::$instance = new self;
+//        }
+//        return self::$instance;
+//    }
 //
     //实现增删改查
     /**
@@ -130,66 +129,62 @@ class CommonController extends Controller
      * @return string
      */
     //添加
-    public function add($table_name, $data)
-    {
-        $keys = implode(",", array_keys($data));
-
-        $value = "'" . implode(",", array_values($data)) . "'";
-        $values = str_replace(',', "','", $value);
-
-        $sql = "insert into $table_name ($keys) values ($values)";
-        $result = $this->pdo->exec($sql);
-//        $this->error();
-        return $result;
-    }
+//    public function add($table_name, $data)
+//    {
+//        $keys = implode(",", array_keys($data));
+//
+//        $value = "'" . implode(",", array_values($data)) . "'";
+//        $values = str_replace(',', "','", $value);
+//
+//        $sql = "insert into $table_name ($keys) values ($values)";
+//        $result = $this->pdo->exec($sql);
+////        $this->error();
+//        return $result;
+//    }
 
     //删除
-    public function del($table_name, $table)
-    {
-        $id = $table['id'];
-        $sql = "delete from $table_name where id=$id";
-        $result = $this->pdo->exec($sql);
-        return $result;
+//    public function del($table_name, $table)
+//    {
+//        $id = $table['id'];
+//        $sql = "delete from $table_name where id=$id";
+//        $result = $this->pdo->exec($sql);
+//        return $result;
 
-    }
+//    }
 
     //修改
-    public function upda($table_name, $data, $table, $id)
-    {
-//        $id = $table['id'];
-//        unset($id);
-        $arr = [];
-        foreach ($data as $k => $v) {
-            $arr[] = $k . "=" . '"' . $v . '"';
-
-        }
-//        var_dump($arr);die;
-        $str = implode(",", $arr);
-        $sql = "update $table_name set $str where id=$id";
-//        var_dump($sql);
-        $result = $this->pdo->exec($sql);
-        return $result;
-    }
-
-    //查询全部
-    public function exhibition($table_name)
-    {
-        $sql = "select * from $table_name";
-//        $sql = "select * from p_num";
-//        var_dump($sql);die;
-        $result = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
-
-    //查询单条
-    public function shfirst($table_name)
-    {
-        $sql = "select * from $table_name";
-//        $sql = "select * from p_num";
-//        var_dump($sql);die;
-        $result = $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
-        return $result;
-    }
+//    public function upda($table_name, $data, $table, $id)
+//    {
+////        $id = $table['id'];
+////        unset($id);
+//        $arr = [];
+//        foreach ($data as $k => $v) {
+//            $arr[] = $k . "=" . '"' . $v . '"';
+//
+//        }
+////        var_dump($arr);die;
+//        $str = implode(",", $arr);
+//        $sql = "update $table_name set $str where id=$id";
+//        $result = $this->pdo->exec($sql);
+//        return $result;
+//    }
+//
+//    //查询全部
+//    public function exhibition($table_name)
+//    {
+//        $sql = "select * from $table_name";
+//        $result = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+//        return $result;
+//    }
+//
+//    //查询单条
+//    public function shfirst($table_name)
+//    {
+//        $sql = "select * from $table_name";
+//
+//        $result = $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
+//        return $result;
+//    }
 
 
 }
