@@ -104,4 +104,9 @@ class Index extends CommonController
         else return $this->rep($info,'404');
 
     }
+
+    public function test(){
+        echo "test";
+        echo "branch";
+    }
 }
